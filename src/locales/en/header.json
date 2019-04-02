@@ -1,0 +1,8 @@
+{
+  "components.header.home": "Home",
+  "components.header.order": "Order",
+  "components.header.user": "User",
+  "components.header.language.en": "English",
+  "components.header.language.title": "Language",
+  "components.header.language.zh-CN": "Chinese"
+}

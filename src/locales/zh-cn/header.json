@@ -1,0 +1,8 @@
+{
+  "components.header.home": "首页",
+  "components.header.order": "订单",
+  "components.header.user": "个人中心",
+  "components.header.language.en": "英文",
+  "components.header.language.title": "语言",
+  "components.header.language.zh-CN": "中文"
+}
