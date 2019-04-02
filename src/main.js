@@ -10,6 +10,7 @@ import vuxLocales from './locales/all.js'
 import { sync } from 'vuex-router-sync'
 import { Group, Cell, DatetimePlugin, CloseDialogsPlugin, ConfigPlugin, BusPlugin, LocalePlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
 import * as types from './vuex/types/com'
+import './utils/setHtmlFontSize'
 
 Vue.config.productionTip = false
 
