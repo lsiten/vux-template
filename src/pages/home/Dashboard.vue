@@ -64,6 +64,7 @@ export default {
     }
   },
   created () {
+    this.init()
     this.$vux.bus && this.$vux.bus.$on('vux:after-view-enter', this.init)
   },
   destroyed () {
@@ -72,6 +73,10 @@ export default {
   methods: {
     init () {
       console.log(1)
+      this.$store.dispatch('com_get_img_token', {})
+        .then(data => {
+          console.log(data)
+        })
     },
     onFocusIndexChange: function (lang) {
     }

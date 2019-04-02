@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
+    "server": "node server/app.js",
+    "dev:server": "supervisor --watch ./server server/app.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
@@ -45,7 +47,9 @@
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
+    "hapi": "^18.1.0",
     "html-webpack-plugin": "^2.30.1",
+    "joi": "^14.3.1",
     "js-yaml-loader": "^1.0.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",

@@ -88,11 +88,7 @@ const actions = {
   com_get_img_token ({ commit }, param) {
     return new Promise((resolve, reject) => {
       api.getSignature(param).then(res => {
-        if (parseInt(res.result) === 0) {
-          resolve(res.data)
-        } else {
-          reject(res)
-        }
+        resolve(res)
       }).catch(err => {
         reject(err)
       })
