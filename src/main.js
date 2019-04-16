@@ -11,6 +11,11 @@ import { sync } from 'vuex-router-sync'
 import { Group, Cell, DatetimePlugin, CloseDialogsPlugin, ConfigPlugin, BusPlugin, LocalePlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
 import * as types from './vuex/types/com'
 import './utils/setHtmlFontSize'
+import { currentUrlToParams } from './utils/app.js'
+import appConfig from './config/app.js'
+// offline-plugin
+import * as OfflinePluginRuntime from 'offline-plugin/runtime'
+OfflinePluginRuntime.install()
 
 Vue.config.productionTip = false
 
@@ -86,10 +91,53 @@ function initHeaderConfig (myrouter) {
   store.commit(types.COM_NAV_OVER_LEFT_SHOW, false)
   store.commit(types.COM_NAV_ON_LEFT_OVER_CLICK, () => {})
 }
-
-// simple history management
+// 缓存更新
+if (window.applicationCache) {
+  window.applicationCache.addEventListener('updateready', function (e) {
+    if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+      window.applicationCache.swapCache()
+      AlertPlugin.show({
+        title: '更新提示',
+        content: '页面有内容更新，点击确定更新',
+        onHide () {
+          window.location.reload()
+        }
+      })
+    } else {
+      // 不更新
+    }
+  }, false)
+}
 const history = window.localStorage
+// 不能清空的history 1是测试内容
+let userInfo = history.getItem(appConfig.userInfoKey) || 1
+let dataCaches = history.getItem(appConfig.cachePre)
 history.clear()
+// simple history management
+// localStorage重置前对用户信息缓存
+const APP_VERSION = currentUrlToParams('app_version')
+if (!APP_VERSION || APP_VERSION === appConfig.appVersion) {
+  if (userInfo) {
+    alert(userInfo)
+  }
+  userInfo && history.setItem(appConfig.userInfoKey, userInfo)
+  dataCaches && history.setItem(appConfig.cachePre, dataCaches)
+}
+// localStorage重置前对用户信息缓存
+// 强制清空缓存
+const APP_CLEAR = currentUrlToParams('app_clear')
+if (APP_CLEAR) {
+  history.clear()
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistration().then((registration) => {
+      registration && registration.unregister().then((boolean) => {
+        boolean ? console.log('注销成功') : console.log('注销失败')
+        window.reload()
+      })
+    })
+  }
+}
+
 let historyCount = history.getItem('page-count') * 1 || 0
 history.setItem('/', 0)
 let isPush = false

@@ -7,6 +7,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const OfflinePlugin = require('offline-plugin')
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -48,6 +49,16 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true
     }),
+    new OfflinePlugin({
+      safeToUseOptionalCaches: true,
+      caches: 'all',
+      ServiceWorker: {
+        events: true
+      },
+      AppCache: {
+        events: true
+      }
+    })
   ]
 })
 

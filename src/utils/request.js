@@ -3,6 +3,7 @@ import axios from 'axios'
 import router from '../router'
 import store from '../vuex'
 import Configs from '../config/app'
+import urlParse from 'url'
 // import {getToken} from './app'
 
 // axios 配置
@@ -55,22 +56,30 @@ axios.interceptors.response.use((res) => {
   return res
 }, (error) => {
   console.log('返回数据网络异常')
-  if (error.response) {
-    switch (error.response.status) {
-      case 404:
-        // 后台返回的404
-        router.push({
-          name: '404'
-        })
-        break
-      case 403:
-        // 后台返回的403
-        router.push({
-          name: '403'
-        })
+  let caches = JSON.parse(localStorage.getItem(Configs.cachePre)) || {}
+  let cacheData = caches[urlParse.parse(error.config.url).path]
+  if (cacheData) {
+    return Promise.resolve({
+      data: JSON.parse(cacheData)
+    })
+  } else {
+    if (error.response) {
+      switch (error.response.status) {
+        case 404:
+          // 后台返回的404
+          router.push({
+            name: '404'
+          })
+          break
+        case 403:
+          // 后台返回的403
+          router.push({
+            name: '403'
+          })
+      }
     }
+    return Promise.reject(error)
   }
-  return Promise.reject(error)
 })
 
 export default axios

@@ -9,6 +9,8 @@ export default {
   timeout: 1000,
   accessTokenKey: 'ACCESS_TOKEN',
   userInfoKey: 'USER_INFO',
+  cachePre: 'CACHE_PRE_',
+  appVersion: 1,
   requestRetry: 4,
   requestRetryDelay: 800,
   designSize: 375, // 设计稿宽度 375
