@@ -17,3 +17,5 @@ WORKDIR /home/project/
 CMD npm install --registry=https://registry.npm.taobao.org && node build/build.js
 # 启动nginx
 RUN sudo systemctl start nginx.service
+# 启动代理服务器
+CMD npm run server
