@@ -15,3 +15,5 @@ RUN mkdir -p /home/project
 WORKDIR /home/project/
 # 容器创建完成后执行的命令
 CMD npm install --registry=https://registry.npm.taobao.org && node build/build.js
+# 启动nginx
+RUN sudo systemctl start nginx.service
