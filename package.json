@@ -12,7 +12,7 @@
     "dev:server": "supervisor --watch ./server server/app.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "com": "node ./scripts/generateComponent",
+    "comp": "node ./scripts/generateComponent",
     "view": "node ./scripts/generatePage"
   },
   "dependencies": {
