@@ -1,6 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// 引入模块路由
+let childrenRoutes = []
+
+const routerContext = require.context('./modules', false, /\.js$/)
+routerContext.keys().forEach(key => {
+  childrenRoutes = [...childrenRoutes, ...(routerContext(key).default || routerContext(key))]
+})
+
 Vue.use(Router)
 
 export default new Router({
@@ -16,26 +24,7 @@ export default new Router({
       path: '/',
       component: resolve => require(['../pages/root/index.vue'], resolve),
       meta: {title: '自述文件'},
-      children: [
-        {
-          name: 'dashboard',
-          path: '/dashboard',
-          component: resolve => require(['../pages/home/Dashboard.vue'], resolve),
-          meta: {title: 'components.header.home', permission: true}
-        },
-        {
-          name: 'order',
-          path: '/order',
-          component: resolve => require(['../pages/order/order.vue'], resolve),
-          meta: {title: 'components.header.order', permission: true}
-        },
-        {
-          name: 'user',
-          path: '/user',
-          component: resolve => require(['../pages/user/user.vue'], resolve),
-          meta: {title: 'components.header.user', permission: true}
-        }
-      ]
+      children: childrenRoutes
     },
     {
       name: 'login',
