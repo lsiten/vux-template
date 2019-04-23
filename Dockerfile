@@ -11,4 +11,4 @@ COPY ./nginx/default.conf /ert/nginx/conf.d/
 # 暴露端口
 EXPOSE 8000
 # 启动代理服务器
-ENTRYPOINT ["nginx", "-g", "daemon off:"] 
+ENTRYPOINT ["nginx", "-g", "daemon off;"] 
