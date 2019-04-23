@@ -27,5 +27,8 @@ module.exports = {
       code: CodeMap.OK.code,
       msg: CodeMap.OK.message
     }
+  },
+  getUser: async () => {
+    return '111'
   }
 }

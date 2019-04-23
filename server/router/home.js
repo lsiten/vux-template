@@ -61,5 +61,21 @@ module.exports = [
       response.header('content-type', 'application/json; charset=utf-8')
       return response
     }
+  },
+  {
+    method: 'get',
+    path: `/${GROUP_NAME}/test`,
+    handler: async (request, reply) => {
+      let rData = ''
+      try {
+        rData = await homeControllers.getUser()
+      } catch (e) {
+        rData = 'error'
+      }
+      const response = reply.response(rData)
+      response.type('text/plain')
+      response.header('content-type', 'text/html; charset=utf-8')
+      return response
+    }
   }
 ]
