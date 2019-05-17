@@ -48,17 +48,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       inject: true
-    }),
-    new OfflinePlugin({
-      safeToUseOptionalCaches: true,
-      caches: 'all',
-      ServiceWorker: {
-        events: true
-      },
-      AppCache: {
-        events: true
-      }
     })
+    // new OfflinePlugin({
+    //   safeToUseOptionalCaches: true,
+    //   caches: 'all',
+    //   ServiceWorker: {
+    //     events: true
+    //   },
+    //   AppCache: {
+    //     events: true
+    //   }
+    // })
   ]
 })
 
