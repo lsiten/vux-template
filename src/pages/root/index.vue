@@ -8,7 +8,14 @@
       <transition
       @after-enter="$vux.bus && $vux.bus.$emit('vux:after-view-enter')"
       :name="viewTransition" :css="!!direction">
-        <router-view class="router-view"></router-view>
+         <keep-alive  v-if="$route.meta.keepAlive">
+          <!-- 需要缓存的视图组件 -->
+          <router-view :include="include" class="router-view">
+          </router-view>
+        </keep-alive>
+        <!-- 不需要缓存的视图组件 -->
+        <router-view class="router-view" v-if="!$route.meta.keepAlive">
+        </router-view>
       </transition>
       <lsiten-footer slot="bottom"></lsiten-footer>
     </view-box>
@@ -25,7 +32,8 @@ export default {
   name: 'index',
   data () {
     return {
-      entryUrl: document.location.href
+      entryUrl: document.location.href,
+      include: []
     }
   },
   directives: {
@@ -36,6 +44,21 @@ export default {
     ViewBox,
     'lsiten-header': lheader,
     'lsiten-footer': lfooter
+  },
+  watch: {
+    $route (to, from) {
+      // 如果 要 to(进入) 的页面是需要 keepAlive 缓存的，把 name push 进 include数组
+      if (to.meta.keepAlive) {
+        !this.include.includes(to.name) && this.include.push(to.name)
+      }
+      // 如果 要 form(离开) 的页面是 keepAlive缓存的，
+      // 再根据 deepth 来判断是前进还是后退
+      // 如果是后退
+      if (from.meta.keepAlive && to.meta.deepth < from.meta.deepth) {
+        let index = this.include.indexOf(from.name)
+        index !== -1 && this.include.splice(index, 1)
+      }
+    }
   },
   computed: {
     ...mapGetters({
@@ -62,7 +85,7 @@ export default {
 .vux-pop-in-enter-active,
 .vux-pop-in-leave-active {
   will-change: transform;
-  transition: all ease-in 500ms;
+  transition: all ease-in 200ms;
   height: 100%;
   top: 46px;
   position: absolute;
